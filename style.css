@@ -742,4 +742,155 @@ canvas {
   .review-date {
     margin-top: 0.5rem;
   }
+  
+  .celebrity-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .celebrity-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .comparison-table {
+    font-size: 0.8rem;
+  }
+  
+  .comparison-item {
+    padding: 0.5rem;
+    min-height: 40px;
+  }
+}
+
+/* Celebrity Endorsements */
+.celebrity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.celebrity-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.celebrity-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 0, 0, 0.4);
+  box-shadow: 0 10px 25px rgba(255, 0, 0, 0.2);
+}
+
+.celebrity-avatar {
+  font-size: 3rem;
+  min-width: 60px;
+  text-align: center;
+  background: linear-gradient(135deg, #ff0000, #cc0000);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+}
+
+.celebrity-info h3 {
+  font-size: 1.3rem;
+  margin: 0 0 0.5rem 0;
+  color: #fff;
+  font-weight: 600;
+}
+
+.celebrity-title {
+  font-size: 0.9rem;
+  color: #ff0000;
+  margin: 0 0 1rem 0;
+  font-style: italic;
+}
+
+.celebrity-quote {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #e0e0e0;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Comparison Chart */
+.comparison-table {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 0, 0, 0.2);
+  border-radius: 15px;
+  overflow: hidden;
+  margin-top: 2rem;
+}
+
+.comparison-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  background: rgba(255, 0, 0, 0.1);
+  border-bottom: 2px solid rgba(255, 0, 0, 0.3);
+}
+
+.comparison-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  border-bottom: 1px solid rgba(255, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.comparison-row:hover {
+  background: rgba(255, 0, 0, 0.05);
+}
+
+.comparison-row.winner {
+  background: rgba(255, 0, 0, 0.1);
+  border-bottom: 2px solid rgba(255, 0, 0, 0.3);
+  font-weight: bold;
+}
+
+.comparison-item {
+  padding: 1rem;
+  text-align: center;
+  color: #e0e0e0;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
+}
+
+.comparison-header .comparison-item {
+  background: rgba(255, 0, 0, 0.1);
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.comparison-row:first-child .comparison-item {
+  font-weight: 600;
+  color: #fff;
+}
+
+.comparison-note {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: rgba(255, 0, 0, 0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 0, 0, 0.2);
+}
+
+.comparison-note p {
+  font-size: 0.9rem;
+  color: #ccc;
+  font-style: italic;
+  margin: 0;
+  text-align: center;
 }
