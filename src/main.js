@@ -270,6 +270,97 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
+// Initialize interactive sections when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM loaded, initializing interactive sections...');
+  console.log('Document body:', document.body);
+  console.log('Interactive sections container:', document.querySelector('.interactive-sections'));
+  initInteractiveSections();
+});
+
+// Also try on window load as backup
+window.addEventListener('load', () => {
+  console.log('Window loaded, checking interactive sections...');
+  if (!document.querySelector('.section-btn')) {
+    console.log('Buttons not found on window load');
+  }
+});
+
+// Interactive sections functionality
+function initInteractiveSections() {
+  console.log('Initializing interactive sections...');
+  const sectionButtons = document.querySelectorAll('.section-btn');
+  const hiddenSections = document.querySelectorAll('.hidden-section');
+  const faqItems = document.querySelectorAll('.faq-item');
+  
+  console.log('Found section buttons:', sectionButtons.length);
+  console.log('Found hidden sections:', hiddenSections.length);
+  console.log('Found FAQ items:', faqItems.length);
+  
+  // Section button functionality
+  sectionButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      console.log('Button clicked:', button.textContent);
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const target = button.getAttribute('data-target');
+      console.log('Target section:', target);
+      
+      // Hide all sections first
+      hiddenSections.forEach(section => {
+        section.classList.remove('active');
+      });
+      
+      // Remove active class from all buttons
+      sectionButtons.forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Show target section and activate button
+      const targetSection = document.getElementById(target);
+      console.log('Found target section:', targetSection);
+      if (targetSection) {
+        targetSection.classList.add('active');
+        button.classList.add('active');
+        console.log('Section activated:', target);
+      }
+    });
+  });
+  
+  // FAQ toggle functionality
+  faqItems.forEach(item => {
+    const question = item.querySelector('.faq-question');
+    const answer = item.querySelector('.faq-answer');
+    
+    question.addEventListener('click', () => {
+      const isActive = item.classList.contains('active');
+      
+      // Close all other FAQ items
+      faqItems.forEach(otherItem => {
+        otherItem.classList.remove('active');
+      });
+      
+      // Toggle current item
+      if (!isActive) {
+        item.classList.add('active');
+      }
+    });
+  });
+  
+  // Close sections when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.interactive-sections')) {
+      hiddenSections.forEach(section => {
+        section.classList.remove('active');
+      });
+      sectionButtons.forEach(btn => {
+        btn.classList.remove('active');
+      });
+    }
+  });
+}
+
 function animate() {
   requestAnimationFrame(animate);
   
