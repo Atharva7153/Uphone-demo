@@ -5,7 +5,7 @@ A stunning interactive 3D phone showcase built with Three.js, featuring scroll-t
 
 ## 🎯 Live Demo
 
-**[🚀 View Live Demo](http://localhost:5174/)** *(Run `npm run dev` to start the development server)*
+**[🚀 View Live Demo](https://uphone-demo.onrender.com/)** *(Run `npm run dev` to start the development server)*
 
 ## ✨ Features
 
