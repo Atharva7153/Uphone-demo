@@ -215,7 +215,7 @@ loader.load(
       gsap.to({ animTime: 0 }, {
         animTime: animationDuration,
         scrollTrigger: {
-          trigger: document.body,
+          trigger: ".animation-section",
           start: "top top",
           end: "bottom bottom",
           scrub: true
