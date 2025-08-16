@@ -6,6 +6,43 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// --- Black Fade Overlay Setup ---
+let blackFade = document.getElementById('black-fade');
+if (!blackFade) {
+  blackFade = document.createElement('div');
+  blackFade.id = 'black-fade';
+  blackFade.style.position = 'fixed';
+  blackFade.style.left = 0;
+  blackFade.style.top = 0;
+  blackFade.style.width = '100vw';
+  blackFade.style.height = '100vh';
+  blackFade.style.background = '#000';
+  blackFade.style.zIndex = 9999;
+  blackFade.style.pointerEvents = 'none';
+  blackFade.style.transition = 'opacity 0.3s';
+  blackFade.style.opacity = 1;
+  document.body.appendChild(blackFade);
+
+
+  const fadeText = document.createElement('div');
+  fadeText.textContent = 'Scroll down';
+  fadeText.style.opacity = 1;
+  fadeText.style.transition = 'opacity 0.3s';
+  blackFade.appendChild(fadeText);
+}
+
+// Fade out overlay on scroll (first 10% of scroll)
+gsap.to(blackFade, {
+  opacity: 0,
+  ease: "power1.out",
+  scrollTrigger: {
+    trigger: document.body,
+    start: "top top",
+    end: "10% top",
+    scrub: true
+  }
+});
+
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x000000); // Set background to black
 const camera = new THREE.PerspectiveCamera(
@@ -15,7 +52,7 @@ const camera = new THREE.PerspectiveCamera(
   1000
 )
 
-const renderer = new THREE.WebGLRenderer({ antialias: false });
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -222,24 +259,27 @@ loader.load(
         },
         onUpdate: function () {
           if (mixer) {
-            const currentTime = this.targets()[0].animTime;
-            
-            // Clamp the animation time to prevent looping
-            const clampedTime = Math.max(0, Math.min(currentTime, animationDuration));
-            mixer.setTime(clampedTime);
-            
-            // Calculate scroll progress (0 to 1) - also clamped
-            const progress = Math.max(0, Math.min(clampedTime / animationDuration, 1));
-            
-            // Update content visibility based on scroll progress
-            updateContentVisibility(progress);
-            
+            // Get scroll progress (0 to 1)
+            const st = this.scrollTrigger;
+            let progress = st ? st.progress : 0;
+
+            // Delay animation: first 10% of scroll = animTime 0
+            // Animation plays from 10% to 100% scroll
+            let animProgress = 0;
+            if (progress > 0.1) {
+              animProgress = (progress - 0.1) / 0.9;
+              animProgress = Math.max(0, Math.min(animProgress, 1));
+            }
+            const animTime = animProgress * animationDuration;
+
+            mixer.setTime(animTime);
+
+            // Update content visibility based on scroll progress (use animProgress)
+            updateContentVisibility(animProgress);
+
             // Update the animated camera if it exists
             if (animatedCamera) {
-              // Force update the camera's world matrix
               animatedCamera.updateMatrixWorld(true);
-              
-              // Copy the animated camera's properties to our active camera
               activeCamera.position.copy(animatedCamera.position);
               activeCamera.rotation.copy(animatedCamera.rotation);
               activeCamera.quaternion.copy(animatedCamera.quaternion);
